@@ -2,19 +2,21 @@ const User = require("../models/user");
 
 const getInfo = async (req, res) => {
   try {
-    const { _id } = req.params;
+    const _id = req.params._id;
     const { from, to, limit } = req.query;
     let getLimit = Number(limit) || 10;
-    let getFrom = new Date(from);
-    let getTo = new Date(to);
+
+    !from ? (getFrom = new Date("1970-01-01")) : new Date(from);
+    !to ? (getTo = new Date("2100-01-01")) : new Date(to);
 
     let findID = await User.findOne({ _id });
-
+    console.log(findID);
     if (findID) {
       let result = findID.log
         .filter((item) => new Date(item.date) > getFrom && new Date(item.date) < getTo)
         .slice(0, getLimit);
       let count = result.length;
+
       return res.status(201).json({ _id, username: findID.username, count, log: result });
     }
   } catch (error) {
@@ -22,6 +24,7 @@ const getInfo = async (req, res) => {
   }
 };
 const postUsername = async (req, res) => {
+  await User.deleteMany();
   try {
     let { username } = req.body;
     let findUser = await User.findOne({ username: username });
@@ -37,7 +40,8 @@ const postUsername = async (req, res) => {
 };
 const postExo = async (req, res) => {
   try {
-    const { _id } = req.body;
+    const _id = req.params._id;
+
     if (!req.body.date) {
       req.body.date = new Date().toDateString();
     }
@@ -46,16 +50,16 @@ const postExo = async (req, res) => {
       duration: req.body.duration,
       date: new Date(req.body.date).toDateString(),
     };
-    let checkID = await User.findOne({ _id });
+    let checkID = await User.findOne({ _id }).updateOne({ $push: { log } });
+    let getUsername = await User.findOne({ _id });
 
     if (checkID) {
-      await User.updateOne({ $push: { log } });
       return res.status(201).json({
-        _id,
-        username: checkID.username,
-        date: log.date,
-        duration: Number(log.duration),
+        username: getUsername.username,
         description: log.description,
+        duration: Number(log.duration),
+        date: log.date,
+        _id,
       });
     } else {
       return res.status(500).json({ error: "ID doesnt exist" });
@@ -66,7 +70,7 @@ const postExo = async (req, res) => {
 };
 const getLogs = async (req, res) => {
   try {
-    const { _id } = req.body;
+    const _id = req.params._id;
     let findID = await User.findOne({ _id });
     if (findID) {
       let count = findID.log.length;

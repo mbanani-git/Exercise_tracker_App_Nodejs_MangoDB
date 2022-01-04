@@ -19,7 +19,7 @@
     <div class="form-2">
       <h2>Add an exercise :</h2>
       <form id="exo-form" method="post" action="/api/users/:_id/exercises">
-        <input id="_id" name="_id" type="text" class="exo-input" placeholder="id*" required/>
+        <input id="_id" name=":_id" type="text" class="exo-input" placeholder="id*" required/>
         <input name="description" type="text" class="exo-input" placeholder="description*" required/>
         <input name="duration" type="number" class="exo-input" placeholder="duration*(min)" required/>
         <input name="date" type="date" class="exo-input"/>
@@ -36,7 +36,7 @@
     <div>
       <p class="usage">
         Example usage for get request: <mark>/api/users/:id/logs?[from][to][limit]</mark></br>
-        <a href="/api/users/61d36ff142b26f513868620c/logs?from=2022-01-02&to=2022-01-08&limit=10"> Test Link</a>
+        <a href="/api/users/61d4c0e7d985ec475cb53e63/logs?from=2022-01-02&to=2022-01-08&limit=2"> Test Link</a>
       </p>
     </div>
     <div><em>by mbanani @mbdev</em></div>
