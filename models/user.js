@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-
     trim: true,
     maxlength: [10],
   },
@@ -11,25 +10,7 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  log: {
-    type: Array,
-    default: {
-      description: {
-        type: String,
-
-        trim: true,
-        maxlength: [20],
-      },
-      duration: {
-        type: Number,
-
-        maxlength: [3],
-      },
-      description: {
-        type: Date,
-      },
-    },
-  },
+  log: [{ description: String, date: String, duration: Number }],
 });
 
 module.exports = mongoose.model("User", UserSchema);

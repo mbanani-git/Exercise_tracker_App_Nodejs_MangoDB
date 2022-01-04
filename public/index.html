@@ -11,18 +11,18 @@
     <div><h1>Exercise tracker App</h1></div>
     <div class="form-1">
       <h2>Create new user :</h2>
-      <form class="username-form" method="POST" action="/api/users">
+      <form class="username-form" method="post" action="/api/users">
         <input name="username" type="text" class="username-input" placeholder="username" required/>
         <button type="submit" class="username-submit">submit</button>
       </form>
     </div>
     <div class="form-2">
       <h2>Add an exercise :</h2>
-      <form id="exo-form" method="POST" action="/api/users/_id/exercises">
+      <form id="exo-form" method="post" action="/api/users/:_id/exercises">
         <input id="_id" name="_id" type="text" class="exo-input" placeholder="id*" required/>
-        <input name="desc" type="text" class="exo-input" placeholder="description*" required/>
+        <input name="description" type="text" class="exo-input" placeholder="description*" required/>
         <input name="duration" type="number" class="exo-input" placeholder="duration*(min)" required/>
-        <input name="date" type="date" class="exo-input"  required/>
+        <input name="date" type="date" class="exo-input"/>
         <button type="submit" class="username-submit">submit</button>
       </form>
     </div>

@@ -24,14 +24,12 @@ const getInfo = async (req, res) => {
 const postUsername = async (req, res) => {
   try {
     let { username } = req.body;
-    console.log(username);
-
     let findUser = await User.findOne({ username: username });
     if (!findUser) {
       let newUser = await User.create({ username: username });
-      return res.status(201).json({ id: newUser._id, username: newUser.username });
+      return res.status(201).json({ username: newUser.username, _id: newUser._id });
     } else {
-      return res.status(201).json({ id: findUser._id, username: findUser.username });
+      return res.status(201).json({ username: findUser.username, _id: findUser._id });
     }
   } catch (error) {
     res.status(500).json({ err: error });
@@ -40,13 +38,14 @@ const postUsername = async (req, res) => {
 const postExo = async (req, res) => {
   try {
     const { _id } = req.body;
-
+    if (!req.body.date) {
+      req.body.date = new Date().toDateString();
+    }
     const log = {
-      description: req.body.desc,
+      description: req.body.description,
       duration: req.body.duration,
       date: new Date(req.body.date).toDateString(),
     };
-
     let checkID = await User.findOne({ _id });
 
     if (checkID) {
@@ -77,4 +76,13 @@ const getLogs = async (req, res) => {
     return res.status(500).json({ error: "ID doesnt exist" });
   }
 };
-module.exports = { getInfo, postUsername, postExo, getLogs };
+const getAllUsers = async (req, res) => {
+  try {
+    const getAll = await User.find({}).select("_id username");
+    res.status(201).json([...getAll]);
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
+
+module.exports = { getInfo, postUsername, postExo, getLogs, getAllUsers };
