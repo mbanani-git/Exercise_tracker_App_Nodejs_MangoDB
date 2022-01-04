@@ -1,0 +1,62 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div><h1>Exercise tracker App</h1></div>
+    <div class="form-1">
+      <h2>Create new user :</h2>
+      <form class="username-form" method="POST" action="/api/users">
+        <input name="username" type="text" class="username-input" placeholder="username" required/>
+        <button type="submit" class="username-submit">submit</button>
+      </form>
+    </div>
+    <div class="form-2">
+      <h2>Add an exercise :</h2>
+      <form id="exo-form" method="POST" action="/api/users/_id/exercises">
+        <input id="_id" name="_id" type="text" class="exo-input" placeholder="id*" required/>
+        <input name="desc" type="text" class="exo-input" placeholder="description*" required/>
+        <input name="duration" type="number" class="exo-input" placeholder="duration*(min)" required/>
+        <input name="date" type="date" class="exo-input"  required/>
+        <button type="submit" class="username-submit">submit</button>
+      </form>
+    </div>
+    <div class="form-2">
+      <h2>Check your logs :</h2>
+      <form action="/api/users/:_id/logs" method="POST" id="logs-form">
+        <input type="text" name="_id" placeholder="id" id="_id2" required/>
+        <button type="submit">submit</button>
+      </form>
+    </div>
+    <div>
+      <p class="usage">
+        Example usage for get request: <mark>/api/users/:id/logs?[from][to][limit]</mark></br>
+        <a href="/api/users/61d36ff142b26f513868620c/logs?from=2022-01-02&to=2022-01-08&limit=10"> Test Link</a>
+      </p>
+    </div>
+    <div><em>by mbanani @mbdev</em></div>
+
+    <script>
+      const exoForm = document.getElementById("exo-form");
+      const logsForm = document.getElementById("logs-form");
+      exoForm.addEventListener("submit", () => {
+        const userID = document.getElementById("_id").value;
+        exoForm.action = `/api/users/${userID}/exercises`;
+
+        exoForm.submit();
+      });
+      logsForm.addEventListener("submit", () => {
+        const userID = document.getElementById("_id2").value;
+        logsForm.action = `/api/users/${userID}/logs`;
+
+        logsForm.submit();
+      });
+    </script>
+    <!-- <script src="./url.js"></script> -->
+  </body>
+</html>
